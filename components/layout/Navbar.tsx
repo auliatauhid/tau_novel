@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
-import { BookOpen, Search, Shield, LogOut, Menu, X, User } from 'lucide-react';
+import { Search, Shield, LogOut, Menu, X, User } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 
@@ -33,8 +33,12 @@ export function Navbar() {
         {/* Brand Logo & Desktop Nav */}
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="h-9 w-9 rounded-xl bg-[#1c1d21] dark:bg-stone-100 flex items-center justify-center text-amber-400 dark:text-stone-900 shadow-xs transition-transform duration-200 group-hover:scale-105">
-              <BookOpen className="h-4.5 w-4.5" />
+            <div className="h-9 w-9 rounded-xl overflow-hidden bg-white shadow-2xs border border-stone-200/80 dark:border-stone-800 flex items-center justify-center p-0.5 transition-transform duration-200 group-hover:scale-105">
+              <img
+                src="/logo.png"
+                alt="Taunovel Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold tracking-tight text-stone-900 dark:text-stone-100 font-serif leading-none">

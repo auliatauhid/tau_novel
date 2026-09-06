@@ -148,36 +148,60 @@ export default async function HomePage() {
               </div>
             </div>
           ) : (
-            /* Minimal Hero when no featured novel exists */
-            <div className="text-center space-y-6 max-w-3xl mx-auto py-8">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold bg-white/90 dark:bg-stone-800/90 text-stone-800 dark:text-stone-200 border border-stone-200 dark:border-stone-700/80 shadow-2xs">
-                <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-                <span>Perpustakaan Novel Digital Modern</span>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center py-6 sm:py-10">
+              <div className="lg:col-span-7 space-y-6 text-left">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold bg-white/90 dark:bg-stone-800/90 text-stone-800 dark:text-stone-200 border border-stone-200 dark:border-stone-700/80 shadow-2xs">
+                  <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+                  <span>Perpustakaan Novel Digital Modern</span>
+                </div>
+
+                <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-stone-900 dark:text-stone-50 leading-[1.12]">
+                  Temukan kisah memikat berikutnya.
+                </h1>
+
+                <p className="text-base sm:text-lg text-stone-600 dark:text-stone-400 max-w-xl leading-relaxed font-sans">
+                  Baca novel online dengan pengalaman membaca yang tenang, elegan, dan dirancang khusus untuk kenyamanan mata Anda.
+                </p>
+
+                <div className="max-w-lg pt-1">
+                  <SearchBar placeholder="Cari judul novel atau nama penulis..." />
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  <Link href="/novels">
+                    <Button size="lg" className="h-12 px-7 text-sm font-semibold shadow-md bg-[#1c1d21] hover:bg-[#2e2f38] text-white flex items-center gap-2">
+                      <Play className="h-4 w-4 fill-current text-amber-400" />
+                      <span>Jelajahi Novel</span>
+                    </Button>
+                  </Link>
+                  <Link href="/novels?sort=popular">
+                    <Button variant="outline" size="lg" className="h-12 px-5 text-sm font-medium">
+                      <span>Paling Populer</span>
+                      <ArrowRight className="h-4 w-4 ml-1.5" />
+                    </Button>
+                  </Link>
+                </div>
               </div>
 
-              <h1 className="font-serif text-4xl sm:text-6xl font-extrabold tracking-tight text-stone-900 dark:text-stone-50 leading-tight">
-                Temukan kisah memikat berikutnya.
-              </h1>
-
-              <p className="text-base sm:text-lg text-stone-600 dark:text-stone-400 max-w-xl mx-auto leading-relaxed font-sans">
-                Baca novel online dengan pengalaman membaca yang tenang, elegan, dan dirancang khusus untuk kenyamanan mata Anda.
-              </p>
-
-              <div className="max-w-md mx-auto pt-2">
-                <SearchBar placeholder="Cari judul novel atau nama penulis..." />
-              </div>
-
-              <div className="flex flex-wrap justify-center items-center gap-3 pt-2">
-                <Link href="/novels">
-                  <Button size="lg" className="h-12 px-7 text-sm shadow-sm font-semibold">
-                    Jelajahi Novel
-                  </Button>
-                </Link>
-                <Link href="/novels?sort=popular">
-                  <Button variant="outline" size="lg" className="h-12 px-6 text-sm font-medium">
-                    Paling Populer
-                  </Button>
-                </Link>
+              <div className="lg:col-span-5 flex justify-center lg:justify-end">
+                <div className="relative w-full max-w-md rounded-3xl overflow-hidden shadow-2xl border border-stone-200/80 dark:border-stone-800 group">
+                  <img
+                    src="/images/library-cozy.jpg"
+                    alt="Taunovel Digital Library"
+                    className="w-full h-80 sm:h-96 object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-stone-950/20 to-transparent flex flex-col justify-end p-6 text-white space-y-1">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-amber-400">
+                      Koleksi Terlengkap
+                    </span>
+                    <h3 className="font-serif font-bold text-lg leading-snug">
+                      Ribuan Bab Cerita Siap Dibaca Kapan Saja
+                    </h3>
+                    <p className="text-xs text-stone-300 leading-relaxed">
+                      Dari fantasi epik hingga drama romansa hangat, temukan kisah yang memikat imajinasi Anda.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -264,6 +288,48 @@ export default async function HomePage() {
           <NovelGrid novels={remainingFeatured} />
         </section>
       )}
+
+      {/* EDITORIAL LIBRARY SHOWCASE BANNER */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative rounded-3xl overflow-hidden border border-stone-200/80 dark:border-stone-800/80 bg-white/70 dark:bg-stone-900/60 shadow-xs backdrop-blur-xs">
+          <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
+            <div className="lg:col-span-7 p-6 sm:p-10 lg:p-12 space-y-4 sm:space-y-5">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-800 dark:text-amber-300 border border-amber-500/20">
+                <Sparkles className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
+                <span>Pengalaman Membaca Tenang</span>
+              </div>
+              <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-stone-900 dark:text-stone-100 tracking-tight leading-snug">
+                Ruang Membaca Digital yang Dirancang Khusus untuk Kenyamanan Mata Anda
+              </h2>
+              <p className="text-sm sm:text-base text-stone-600 dark:text-stone-400 leading-relaxed max-w-xl">
+                Nikmati novel-novel pilihan dengan tata letak buku editorial klasik, warna latar kertas hangat tanpa silau, dan mode baca bebas distraksi di ponsel maupun komputer.
+              </p>
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <Link href="/novels">
+                  <Button className="h-11 px-6 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold shadow-xs">
+                    Jelajahi Perpustakaan
+                  </Button>
+                </Link>
+                <Link href="/novels?sort=popular">
+                  <Button variant="outline" className="h-11 px-5 rounded-xl border-stone-300 dark:border-stone-700">
+                    Koleksi Terpopuler
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 h-64 sm:h-80 lg:h-full min-h-[300px] relative overflow-hidden">
+              <img
+                src="/images/library-cozy.jpg"
+                alt="Perpustakaan Digital Taunovel"
+                className="w-full h-full object-cover object-center"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-white/60 via-transparent to-transparent dark:from-stone-900/70 dark:via-transparent dark:to-transparent pointer-events-none" />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* POPULAR NOVELS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">

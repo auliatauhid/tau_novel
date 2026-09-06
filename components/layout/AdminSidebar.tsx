@@ -9,7 +9,6 @@ import {
   PlusCircle,
   Users,
   ArrowLeft,
-  BookMarked,
 } from 'lucide-react';
 
 export function AdminSidebar() {
@@ -28,8 +27,12 @@ export function AdminSidebar() {
       {/* Brand Header */}
       <div className="h-16 px-5 flex items-center justify-between border-b border-stone-200/80 dark:border-stone-800/80">
         <Link href="/admin" className="flex items-center gap-3 group">
-          <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 text-white flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
-            <BookMarked className="h-5 w-5" />
+          <div className="h-9 w-9 rounded-xl overflow-hidden bg-white shadow-2xs border border-stone-200/80 dark:border-stone-800 flex items-center justify-center p-0.5 group-hover:scale-105 transition-transform">
+            <img
+              src="/logo.png"
+              alt="Taunovel Logo"
+              className="w-full h-full object-contain"
+            />
           </div>
           <div>
             <div className="flex items-center gap-1.5">

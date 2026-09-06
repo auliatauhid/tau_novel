@@ -20,17 +20,26 @@ const newsreader = Newsreader({
 });
 
 export const metadata: Metadata = {
-  title: 'Taunovel — Baca Novel Online',
+  metadataBase: new URL(process.env.NEXTAUTH_URL || 'https://taunovel.com'),
+  title: {
+    default: 'Taunovel — Digital Library Novel Online',
+    template: '%s | Taunovel',
+  },
   description:
-    'Taunovel adalah platform membaca novel online dengan pengalaman membaca yang nyaman, sederhana, dan modern.',
-  keywords: ['novel online', 'baca novel', 'web novel', 'taunovel', 'novel gratis'],
+    'Taunovel adalah perpustakaan digital untuk membaca novel online dengan tata letak editorial, warna kertas hangat, dan kenyamanan tanpa distraksi.',
+  keywords: ['novel online', 'baca novel', 'web novel', 'taunovel', 'digital library', 'novel indonesia'],
   authors: [{ name: 'Taunovel Team' }],
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
+  },
   openGraph: {
-    title: 'Taunovel — Baca Novel Online',
+    title: 'Taunovel — Digital Library Novel Online',
     description:
-      'Platform membaca novel online dengan pengalaman membaca yang nyaman, sederhana, dan modern.',
+      'Perpustakaan digital untuk membaca novel online dengan pengalaman membaca yang tenang, sederhana, dan modern.',
     url: 'https://taunovel.com',
     siteName: 'Taunovel',
+    images: [{ url: '/logo.png', width: 1254, height: 1254, alt: 'Taunovel Logo' }],
     locale: 'id_ID',
     type: 'website',
   },

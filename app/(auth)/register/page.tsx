@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { BookOpen, AlertCircle, Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import { AlertCircle, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
@@ -79,9 +79,13 @@ export default function RegisterPage() {
 
       <Card className="w-full max-w-md shadow-xl border-stone-200/90 dark:border-stone-800/90 bg-white/85 dark:bg-stone-900/85 backdrop-blur-md rounded-3xl p-2 sm:p-4">
         <CardHeader className="space-y-2 text-center pb-4">
-          <div className="mx-auto w-12 h-12 rounded-2xl bg-amber-500/10 dark:bg-amber-400/10 flex items-center justify-center text-amber-600 dark:text-amber-400 border border-amber-500/20 mb-1">
-            <BookOpen className="h-6 w-6" />
-          </div>
+          <div className="mx-auto w-14 h-14 rounded-2xl bg-white shadow-2xs border border-stone-200/90 dark:border-stone-700/80 flex items-center justify-center p-1 mb-1">
+          <img
+            src="/logo.png"
+            alt="Taunovel Logo"
+            className="w-full h-full object-contain"
+          />
+        </div>
           <CardTitle className="text-2xl font-serif font-bold text-stone-900 dark:text-stone-100">
             Daftar Akun Baru
           </CardTitle>

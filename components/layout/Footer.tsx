@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BookOpen } from 'lucide-react';
 
 export function Footer() {
   const pathname = usePathname();
@@ -20,8 +19,12 @@ export function Footer() {
           {/* Brand & Mission Statement */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="h-8 w-8 rounded-xl bg-[#1c1d21] dark:bg-stone-100 flex items-center justify-center text-amber-400 dark:text-stone-900 shadow-xs">
-                <BookOpen className="h-4 w-4" />
+              <div className="h-8 w-8 rounded-xl overflow-hidden bg-white shadow-2xs border border-stone-200/80 dark:border-stone-800 flex items-center justify-center p-0.5">
+                <img
+                  src="/logo.png"
+                  alt="Taunovel Logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <span className="text-xl font-bold tracking-tight text-stone-900 dark:text-stone-100 font-serif">
                 Taunovel
