@@ -1,0 +1,50 @@
+{
+  "name": "tau_novel",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "eslint",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "test:parser": "tsx lib/docx-parser/__tests__/run-tests.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^2.4.3",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.10",
+    "docx": "^9.7.1",
+    "isomorphic-dompurify": "^4.1.0",
+    "lucide-react": "^0.460.0",
+    "mammoth": "^1.8.0",
+    "next": "^15.1.0",
+    "next-auth": "^4.24.11",
+    "pg": "^8.23.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sanitize-html": "^2.13.1",
+    "tailwind-merge": "^2.5.4",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/sanitize-html": "^2.13.0",
+    "eslint": "^9",
+    "eslint-config-next": "^15.1.0",
+    "prisma": "^5.22.0",
+    "tailwindcss": "^4",
+    "tsx": "^4.19.2",
+    "typescript": "^5"
+  },
+  "overrides": {
+    "htmlparser2": "9.1.0"
+  }
+}

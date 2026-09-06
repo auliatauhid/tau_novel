@@ -1,0 +1,133 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum NovelStatus {
+  ONGOING
+  COMPLETED
+  HIATUS
+}
+
+model User {
+  id              String            @id @default(cuid())
+  name            String?
+  email           String            @unique
+  password        String
+  role            Role              @default(USER)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  bookmarks       Bookmark[]
+  readingProgress ReadingProgress[]
+  novelViews      NovelView[]
+}
+
+model Novel {
+  id              String            @id @default(cuid())
+  title           String
+  slug            String            @unique
+  author          String
+  description     String            @db.Text
+  coverUrl        String?
+  language        String            @default("Indonesia")
+  status          NovelStatus       @default(ONGOING)
+  published       Boolean           @default(false)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  chapters        Chapter[]
+  genres          NovelGenre[]
+  bookmarks       Bookmark[]
+  readingProgress ReadingProgress[]
+  views           NovelView[]
+  importHistories ImportHistory[]
+}
+
+model Chapter {
+  id              String            @id @default(cuid())
+  novelId         String
+  novel           Novel             @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  chapterNumber   Int
+  title           String
+  content         String            @db.Text
+  published       Boolean           @default(true)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  readingProgress ReadingProgress[]
+
+  @@unique([novelId, chapterNumber])
+  @@index([novelId])
+}
+
+model Genre {
+  id     String       @id @default(cuid())
+  name   String       @unique
+  slug   String       @unique
+  novels NovelGenre[]
+}
+
+model NovelGenre {
+  novelId String
+  genreId String
+  novel   Novel  @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  genre   Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([novelId, genreId])
+  @@index([genreId])
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  novelId   String
+  novel     Novel    @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, novelId])
+  @@index([userId])
+}
+
+model ReadingProgress {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  novelId   String
+  novel     Novel    @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  chapterId String
+  chapter   Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  progress  Float    @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, novelId])
+  @@index([userId])
+}
+
+model NovelView {
+  id        String   @id @default(cuid())
+  novelId   String
+  novel     Novel    @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+
+  @@index([novelId])
+}
+
+model ImportHistory {
+  id         String   @id @default(cuid())
+  filename   String
+  novelId    String?
+  novel      Novel?   @relation(fields: [novelId], references: [id], onDelete: SetNull)
+  importedBy String
+  status     String   @default("PROCESSING")
+  createdAt  DateTime @default(now())
+}

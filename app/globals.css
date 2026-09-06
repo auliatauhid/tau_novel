@@ -1,0 +1,273 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f5f0;
+  --foreground: #1c1d21;
+  --card-background: #ffffff;
+  --card-border: rgba(228, 228, 231, 0.85);
+  --accent: #d97706;
+  --accent-foreground: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+  --font-serif: var(--font-serif), 'Newsreader', 'Charter', 'Merriweather', 'Georgia', serif;
+}
+
+.dark {
+  --background: #111215;
+  --foreground: #eeeff2;
+  --card-background: #17191e;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --accent: #f59e0b;
+  --accent-foreground: #09090b;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle Book Cover 3D & Elevation Utilities */
+.book-cover-shadow {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 4px 8px rgba(0, 0, 0, 0.04),
+    0 12px 24px rgba(0, 0, 0, 0.06),
+    inset -1px 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.book-spine-effect {
+  position: relative;
+}
+.book-spine-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 14px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(0, 0, 0, 0.18) 25%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(0, 0, 0, 0.12) 80%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Scrollbar utilities */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(161, 161, 170, 0.4);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(161, 161, 170, 0.7);
+}
+
+/* Skeleton Shimmer */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.animate-shimmer::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0.35) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: shimmer 1.8s infinite;
+  content: '';
+}
+
+/* Reader Specific Themes */
+.reader-theme-cream {
+  background-color: #f7f4ea !important;
+  color: #2c2621 !important;
+  --reader-border: rgba(44, 38, 33, 0.12);
+  --reader-muted: #746c64;
+  --reader-accent: #b45309;
+  --reader-card: #ece6d8;
+}
+
+.reader-theme-sepia {
+  background-color: #eee4cc !important;
+  color: #3e301d !important;
+  --reader-border: rgba(62, 48, 29, 0.14);
+  --reader-muted: #826e57;
+  --reader-accent: #92400e;
+  --reader-card: #e1d3b7;
+}
+
+.reader-theme-sage {
+  background-color: #eaf1eb !important;
+  color: #1e3327 !important;
+  --reader-border: rgba(30, 51, 39, 0.12);
+  --reader-muted: #5b7868;
+  --reader-accent: #15803d;
+  --reader-card: #d9e6db;
+}
+
+.reader-theme-dusk {
+  background-color: #1a1e25 !important;
+  color: #d6dce5 !important;
+  --reader-border: rgba(255, 255, 255, 0.08);
+  --reader-muted: #8893a2;
+  --reader-accent: #f59e0b;
+  --reader-card: #232832;
+}
+
+.reader-theme-dark {
+  background-color: #0d0e11 !important;
+  color: #d8d9de !important;
+  --reader-border: rgba(255, 255, 255, 0.08);
+  --reader-muted: #737580;
+  --reader-accent: #f59e0b;
+  --reader-card: #16181d;
+}
+
+.reader-theme-light {
+  background-color: #f7f5f0 !important;
+  color: #1c1d21 !important;
+  --reader-border: rgba(44, 38, 33, 0.12);
+  --reader-muted: #71717a;
+  --reader-accent: #d97706;
+  --reader-card: #ece8de;
+}
+
+/* Reader Font Families */
+.reader-font-serif {
+  font-family: var(--font-serif), 'Newsreader', 'Charter', 'Merriweather', 'Georgia', serif;
+}
+
+.reader-font-sans {
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.reader-font-mono {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Reader Font Sizes */
+.reader-size-sm {
+  font-size: 1.05rem;
+}
+.reader-size-base {
+  font-size: 1.1875rem;
+}
+.reader-size-lg {
+  font-size: 1.3125rem;
+}
+.reader-size-xl {
+  font-size: 1.45rem;
+}
+.reader-size-2xl {
+  font-size: 1.625rem;
+}
+
+/* Reader Line Heights */
+.reader-leading-compact {
+  line-height: 1.75;
+}
+.reader-leading-normal {
+  line-height: 2.05;
+}
+.reader-leading-loose {
+  line-height: 2.35;
+}
+
+/* Reader Text Alignments */
+.reader-align-justify {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+.reader-align-left {
+  text-align: left;
+}
+
+/* Reader Paragraph Styles */
+.reader-content.reader-indent p {
+  text-indent: 2.25em;
+  margin-bottom: 0.95rem;
+}
+.reader-content.reader-indent p:first-of-type,
+.reader-content.reader-indent h1 + p,
+.reader-content.reader-indent h2 + p,
+.reader-content.reader-indent h3 + p {
+  text-indent: 0;
+}
+
+.reader-content:not(.reader-indent) p {
+  margin-bottom: 1.75rem;
+  text-indent: 0;
+}
+
+.reader-content p:last-child {
+  margin-bottom: 0;
+}
+
+.reader-content h1,
+.reader-content h2,
+.reader-content h3 {
+  font-family: var(--font-serif), serif;
+  font-weight: 700;
+  margin-top: 2.75rem;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+}
+
+.reader-content blockquote {
+  border-left: 3px solid currentColor;
+  padding-left: 1.5rem;
+  padding-right: 0.5rem;
+  margin: 2rem 0;
+  font-style: italic;
+  opacity: 0.88;
+}
+
+.reader-content hr {
+  margin: 3rem auto;
+  width: 20%;
+  border: 0;
+  border-top: 1px solid currentColor;
+  opacity: 0.25;
+}
