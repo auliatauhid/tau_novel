@@ -2,6 +2,7 @@ import { prisma } from '@/lib/db/prisma';
 import { parseDocx, ParsedResult } from '@/lib/docx-parser';
 import { NovelStatus } from '@prisma/client';
 import { generateSlug } from './novel-service';
+import { normalizeImageUrl } from '@/lib/utils/image-utils';
 
 export interface DocxValidationResult {
   valid: boolean;
@@ -123,7 +124,7 @@ export async function createNovelFromImport(params: {
       slug,
       author: metadata.author,
       description: metadata.description,
-      coverUrl: metadata.coverUrl || null,
+      coverUrl: metadata.coverUrl && metadata.coverUrl.trim() ? normalizeImageUrl(metadata.coverUrl) : null,
       language: metadata.language || 'Indonesia',
       status: metadata.status || NovelStatus.ONGOING,
       published: publishNow,

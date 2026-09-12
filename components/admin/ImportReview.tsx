@@ -21,6 +21,8 @@ import { Modal } from '@/components/ui/modal';
 import { ChapterEditor } from './ChapterEditor';
 import { ChapterReader } from '@/components/reader/ChapterReader';
 import { ParsedResult, ParsedChapter } from '@/lib/docx-parser/types';
+import { CoverUploadField } from '@/components/admin/CoverUploadField';
+import { normalizeImageUrl } from '@/lib/utils/image-utils';
 
 interface ImportReviewProps {
   initialResult: ParsedResult;
@@ -39,7 +41,7 @@ export function ImportReview({ initialResult, historyId, onReset }: ImportReview
     language: initialResult.metadata.language || 'Indonesia',
     status: initialResult.metadata.status || 'ONGOING',
     description: initialResult.metadata.description || '',
-    coverUrl: '',
+    coverUrl: initialResult.metadata.coverUrl || '',
   });
 
   const [genreInput, setGenreInput] = useState(metadata.genres.join(', '));
@@ -178,6 +180,7 @@ export function ImportReview({ initialResult, historyId, onReset }: ImportReview
       const payload = {
         metadata: {
           ...metadata,
+          coverUrl: metadata.coverUrl && metadata.coverUrl.trim() ? normalizeImageUrl(metadata.coverUrl) : null,
           genres: genresArray,
         },
         chapters: chapters.map((ch) => ({
@@ -306,15 +309,11 @@ export function ImportReview({ initialResult, historyId, onReset }: ImportReview
             </select>
           </div>
 
-          <div className="space-y-1 sm:col-span-2">
-            <label className="text-xs font-semibold text-stone-700 dark:text-stone-300">
-              URL Cover Gambar (Opsional)
-            </label>
-            <Input
+          <div className="sm:col-span-2">
+            <CoverUploadField
               value={metadata.coverUrl}
-              onChange={(e) => setMetadata({ ...metadata, coverUrl: e.target.value })}
-              placeholder="https://images.unsplash.com/..."
-              className="h-10 rounded-xl"
+              onChange={(newUrl) => setMetadata({ ...metadata, coverUrl: newUrl })}
+              disabled={isSaving}
             />
           </div>
 

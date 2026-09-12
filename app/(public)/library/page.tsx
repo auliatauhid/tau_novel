@@ -3,6 +3,7 @@ import { getCurrentUser } from '@/lib/auth/auth-utils';
 import { getUserBookmarks } from '@/lib/services/bookmark-service';
 import { getUserContinueReadingList } from '@/lib/services/reading-progress-service';
 import { NovelGrid } from '@/components/novel/NovelGrid';
+import { NovelCoverImage } from '@/components/novel/NovelCoverImage';
 import { Button } from '@/components/ui/button';
 import { BookMarked, Play, Bookmark, BookOpen, Compass, ArrowRight } from 'lucide-react';
 
@@ -135,17 +136,13 @@ export default async function LibraryPage() {
               >
                 {/* Book Thumbnail */}
                 <div className="w-16 h-22 rounded-lg shrink-0 overflow-hidden bg-stone-100 dark:bg-stone-800 border border-stone-200/80 dark:border-stone-700/80 relative shadow-sm">
-                  {item.novel.coverUrl ? (
-                    <img
-                      src={item.novel.coverUrl}
-                      alt={item.novel.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-stone-400">
-                      <BookOpen className="h-6 w-6 opacity-60" />
-                    </div>
-                  )}
+                  <NovelCoverImage
+                    src={item.novel.coverUrl}
+                    alt={item.novel.title}
+                    fallbackIcon={<BookOpen className="h-6 w-6 opacity-60" />}
+                    fallbackClassName="w-full h-full flex items-center justify-center text-stone-400 bg-stone-100 dark:bg-stone-800"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                   <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-r from-black/25 via-white/10 to-transparent pointer-events-none" />
                 </div>
 

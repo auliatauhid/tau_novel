@@ -5,6 +5,7 @@ export interface ParsedMetadata {
   language: string;
   status: 'ONGOING' | 'COMPLETED' | 'HIATUS';
   description: string;
+  coverUrl?: string;
 }
 
 export interface ParsedChapter {

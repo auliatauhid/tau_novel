@@ -6,6 +6,7 @@ import { Book, Play, Share2, Check, PenTool } from 'lucide-react';
 import { BookmarkButton } from './BookmarkButton';
 import { ChapterList } from './ChapterList';
 import { Button } from '@/components/ui/button';
+import { NovelCoverImage } from '@/components/novel/NovelCoverImage';
 
 interface NovelDetailProps {
   novel: {
@@ -78,20 +79,14 @@ export function NovelDetail({ novel, isBookmarked = false, userProgress }: Novel
         {/* Book Cover */}
         <div className="w-56 sm:w-64 shrink-0 mx-auto md:mx-0">
           <div className="aspect-[3/4] w-full rounded-2xl overflow-hidden book-cover-shadow book-spine-effect border border-stone-200/80 dark:border-stone-800 bg-stone-100 dark:bg-stone-900 relative">
-            {novel.coverUrl ? (
-              <img
-                src={novel.coverUrl}
-                alt={novel.title}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center text-stone-400 dark:text-stone-600 bg-gradient-to-br from-stone-100 via-stone-50 to-stone-200 dark:from-stone-900 dark:to-stone-950">
-                <Book className="h-16 w-16 mb-3 opacity-40 text-amber-700/60" />
-                <span className="font-serif font-bold text-sm text-stone-700 dark:text-stone-300">
-                  {novel.title}
-                </span>
-              </div>
-            )}
+            <NovelCoverImage
+              src={novel.coverUrl}
+              alt={novel.title}
+              fallbackTitle={novel.title}
+              fallbackIcon={<Book className="h-16 w-16 mb-3 opacity-40 text-amber-700/60" />}
+              className="w-full h-full object-cover"
+              loading="eager"
+            />
           </div>
         </div>
 

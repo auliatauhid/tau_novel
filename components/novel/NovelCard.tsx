@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Book, Layers } from 'lucide-react';
+import { Layers } from 'lucide-react';
+import { NovelCoverImage } from '@/components/novel/NovelCoverImage';
 
 interface NovelCardProps {
   novel: {
@@ -45,30 +46,18 @@ export function NovelCard({ novel }: NovelCardProps) {
     >
       {/* 1. COVER: DOMINANT VISUAL ELEMENT */}
       <div className="relative aspect-[3/4] w-full bg-stone-100 dark:bg-stone-800/60 overflow-hidden book-spine-effect">
-        {novel.coverUrl ? (
-          <>
-            <img
-              src={novel.coverUrl}
-              alt={novel.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
-              loading="lazy"
-            />
-            {/* Subtle Hover Overlay with CTA */}
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/75 via-stone-950/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end justify-center p-3 pointer-events-none">
-              <span className="text-[11px] font-bold text-white bg-amber-600/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-md transform translate-y-1 group-hover:translate-y-0 transition-transform duration-200">
-                Baca
-              </span>
-            </div>
-          </>
-        ) : (
-          /* Elegant Fallback Cover */
-          <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center bg-gradient-to-br from-stone-100 via-stone-50 to-stone-200 dark:from-stone-900 dark:via-stone-850 dark:to-stone-950">
-            <Book className="h-8 w-8 mb-2 opacity-40 text-amber-700/70 dark:text-amber-500/60" />
-            <span className="text-xs font-serif font-bold text-stone-700 dark:text-stone-300 line-clamp-3 px-1 leading-snug">
-              {novel.title}
-            </span>
-          </div>
-        )}
+        <NovelCoverImage
+          src={novel.coverUrl}
+          alt={novel.title}
+          fallbackTitle={novel.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
+        />
+        {/* Subtle Hover Overlay with CTA */}
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-950/75 via-stone-950/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end justify-center p-3 pointer-events-none">
+          <span className="text-[11px] font-bold text-white bg-amber-600/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-md transform translate-y-1 group-hover:translate-y-0 transition-transform duration-200">
+            Baca
+          </span>
+        </div>
 
         {/* Status Badge (Subtle, Top Left) */}
         <div className="absolute top-2 left-2 z-10">

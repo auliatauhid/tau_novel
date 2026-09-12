@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { NovelCoverImage } from '@/components/novel/NovelCoverImage';
 
 interface AdminNovelsTableProps {
   novels: any[];
@@ -171,17 +172,13 @@ export function AdminNovelsTable({
                   <td className="py-3.5 px-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-14 rounded-lg overflow-hidden bg-stone-100 dark:bg-stone-800 shrink-0 border border-stone-200 dark:border-stone-700 relative shadow-xs">
-                        {novel.coverUrl ? (
-                          <img
-                            src={novel.coverUrl}
-                            alt=""
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-stone-400">
-                            <Book className="h-4 w-4 opacity-60" />
-                          </div>
-                        )}
+                        <NovelCoverImage
+                          src={novel.coverUrl}
+                          alt={novel.title}
+                          fallbackIcon={<Book className="h-4 w-4 opacity-60" />}
+                          fallbackClassName="w-full h-full flex items-center justify-center text-stone-400 bg-stone-100 dark:bg-stone-800"
+                          className="w-full h-full object-cover"
+                        />
                         <div className="absolute inset-y-0 left-0 w-0.5 bg-gradient-to-r from-black/25 to-transparent pointer-events-none" />
                       </div>
                       <div className="max-w-[220px] truncate">

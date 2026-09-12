@@ -17,6 +17,7 @@ import { getAdminStats } from '@/lib/services/novel-service';
 import { getImportHistories } from '@/lib/services/import-service';
 import { prisma } from '@/lib/db/prisma';
 import { Button } from '@/components/ui/button';
+import { NovelCoverImage } from '@/components/novel/NovelCoverImage';
 
 export default async function AdminDashboardPage() {
   const [stats, importHistories, recentNovels] = await Promise.all([
@@ -176,13 +177,13 @@ export default async function AdminDashboardPage() {
               <div key={novel.id} className="py-3 flex items-center justify-between gap-3 group">
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-9 h-12 rounded-md overflow-hidden bg-stone-100 dark:bg-stone-800 shrink-0 border border-stone-200/80 dark:border-stone-700/80">
-                    {novel.coverUrl ? (
-                      <img src={novel.coverUrl} alt="" className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-stone-400">
-                        <BookOpen className="h-4 w-4" />
-                      </div>
-                    )}
+                    <NovelCoverImage
+                      src={novel.coverUrl}
+                      alt={novel.title}
+                      fallbackIcon={<BookOpen className="h-4 w-4 opacity-60" />}
+                      fallbackClassName="w-full h-full flex items-center justify-center text-stone-400 bg-stone-100 dark:bg-stone-800"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
 
                   <div className="truncate">

@@ -1,4 +1,5 @@
 import { ParsedMetadata } from './types';
+import { normalizeImageUrl } from '@/lib/utils/image-utils';
 
 export interface ExtractedMetadataResult {
   metadata: ParsedMetadata;
@@ -16,6 +17,7 @@ export function extractMetadata(
     language: 'Indonesia',
     status: 'ONGOING',
     description: '',
+    coverUrl: '',
   };
 
   const lines = text.split(/\r?\n/);
@@ -108,6 +110,19 @@ export function extractMetadata(
         metadata.status = 'HIATUS';
       } else {
         metadata.status = 'ONGOING';
+      }
+      continue;
+    }
+
+    // Match Cover / URL Cover / Link Cover / Tautan Cover / Gambar Cover
+    const coverMatch = line.match(
+      /^(?:url\s*cover|cover\s*url|link\s*cover|tautan\s*cover|gambar\s*cover|cover|tautan\s*gambar|url\s*gambar)\s*:\s*(.+)$/i
+    );
+    if (coverMatch) {
+      isCollectingSynopsis = false;
+      const val = coverMatch[1].replace(/^\[|\]$/g, '').trim();
+      if (val && !val.toUpperCase().includes('ISI URL') && !val.toUpperCase().includes('ISI LINK')) {
+        metadata.coverUrl = normalizeImageUrl(val);
       }
       continue;
     }

@@ -8,6 +8,7 @@ import {
 import { getCurrentUser } from '@/lib/auth/auth-utils';
 import { getUserContinueReadingList } from '@/lib/services/reading-progress-service';
 import { NovelGrid } from '@/components/novel/NovelGrid';
+import { NovelCoverImage } from '@/components/novel/NovelCoverImage';
 import { SearchBar } from '@/components/novel/SearchBar';
 import { Button } from '@/components/ui/button';
 import {
@@ -121,20 +122,15 @@ export default async function HomePage() {
                   href={`/novel/${spotlight.slug}`}
                   className="group relative block w-60 sm:w-72 aspect-[3/4] rounded-2xl overflow-hidden book-cover-shadow book-spine-effect transition-transform duration-500 hover:-translate-y-2 hover:scale-[1.02]"
                 >
-                  {spotlight.coverUrl ? (
-                    <img
-                      src={spotlight.coverUrl}
-                      alt={spotlight.title}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-stone-200 via-stone-100 to-stone-300 dark:from-stone-900 dark:to-stone-950">
-                      <Sparkles className="h-12 w-12 text-amber-600 mb-3 opacity-60" />
-                      <span className="font-serif font-bold text-lg text-stone-800 dark:text-stone-200">
-                        {spotlight.title}
-                      </span>
-                    </div>
-                  )}
+                  <NovelCoverImage
+                    src={spotlight.coverUrl}
+                    alt={spotlight.title}
+                    fallbackTitle={spotlight.title}
+                    fallbackIcon={<Sparkles className="h-12 w-12 text-amber-600 mb-3 opacity-60" />}
+                    fallbackClassName="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-stone-200 via-stone-100 to-stone-300 dark:from-stone-900 dark:to-stone-950"
+                    className="w-full h-full object-cover"
+                    loading="eager"
+                  />
                   {/* Subtle glass badge overlay */}
                   <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-stone-950/70 backdrop-blur-md border border-white/10 text-white space-y-1">
                     <span className="text-[10px] uppercase font-bold tracking-wider text-amber-400 block">

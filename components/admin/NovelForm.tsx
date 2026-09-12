@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { CoverUploadField } from '@/components/admin/CoverUploadField';
+import { normalizeImageUrl } from '@/lib/utils/image-utils';
 
 interface Genre {
   id: string;
@@ -66,7 +68,7 @@ export function NovelForm({ initialData, allGenres = [], isEdit = false }: Novel
         slug: slug.trim() || undefined,
         author,
         description,
-        coverUrl: coverUrl.trim() || undefined,
+        coverUrl: coverUrl.trim() ? normalizeImageUrl(coverUrl.trim()) : (isEdit ? null : undefined),
         language,
         status,
         published,
@@ -177,28 +179,12 @@ export function NovelForm({ initialData, allGenres = [], isEdit = false }: Novel
               />
             </div>
 
-            <div className="space-y-2 sm:col-span-2">
-              <label className="text-xs font-semibold text-stone-700 dark:text-stone-300">
-                URL Cover Gambar
-              </label>
-              <Input
+            <div className="sm:col-span-2">
+              <CoverUploadField
                 value={coverUrl}
-                onChange={(e) => setCoverUrl(e.target.value)}
-                placeholder="https://images.unsplash.com/... atau URL gambar eksternal"
-                className="h-11 rounded-xl"
+                onChange={setCoverUrl}
+                disabled={isLoading}
               />
-              {coverUrl && (
-                <div className="mt-2 flex items-center gap-4 p-3 rounded-2xl bg-stone-50 dark:bg-stone-950/50 border border-stone-200/80 dark:border-stone-800">
-                  <div className="w-16 h-22 rounded-lg overflow-hidden border border-stone-300 dark:border-stone-700 shrink-0 shadow-xs relative">
-                    <img src={coverUrl} alt="Preview Cover" className="w-full h-full object-cover" />
-                    <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-r from-black/25 to-transparent pointer-events-none" />
-                  </div>
-                  <div className="text-xs text-stone-500 space-y-0.5">
-                    <span className="font-semibold text-stone-800 dark:text-stone-200 block">Preview Cover Novel</span>
-                    <span>Pastikan URL gambar dapat diakses secara publik dengan rasio vertikal (2:3 atau 3:4).</span>
-                  </div>
-                </div>
-              )}
             </div>
 
             <div className="space-y-2 sm:col-span-2">

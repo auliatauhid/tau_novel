@@ -38,6 +38,9 @@ test-pg.js
 # vercel
 .vercel
 
-# typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# uploads
+/public/uploads/*
+!/public/uploads/.gitkeep

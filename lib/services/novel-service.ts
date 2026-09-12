@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/db/prisma';
 import { NovelStatus } from '@prisma/client';
+import { normalizeImageUrl } from '@/lib/utils/image-utils';
 
 export interface GetNovelsParams {
   page?: number;
@@ -245,7 +246,7 @@ export async function createNovel(data: {
       slug,
       author: data.author,
       description: data.description,
-      coverUrl: data.coverUrl || null,
+      coverUrl: data.coverUrl && data.coverUrl.trim() ? normalizeImageUrl(data.coverUrl) : null,
       language: data.language || 'Indonesia',
       status: data.status || NovelStatus.ONGOING,
       published: data.published ?? false,
@@ -267,7 +268,7 @@ export async function updateNovel(
     slug?: string;
     author?: string;
     description?: string;
-    coverUrl?: string;
+    coverUrl?: string | null;
     language?: string;
     status?: NovelStatus;
     published?: boolean;
@@ -286,7 +287,12 @@ export async function updateNovel(
       slug: data.slug,
       author: data.author,
       description: data.description,
-      coverUrl: data.coverUrl,
+      coverUrl:
+        data.coverUrl !== undefined
+          ? data.coverUrl && data.coverUrl.trim()
+            ? normalizeImageUrl(data.coverUrl)
+            : null
+          : undefined,
       language: data.language,
       status: data.status,
       published: data.published,

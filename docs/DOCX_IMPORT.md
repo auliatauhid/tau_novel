@@ -37,6 +37,7 @@ Kunci metadata yang dikenali parser:
 - **Genre / Kategori**: Daftar genre dipisahkan koma.
 - **Bahasa / Language**: Bahasa novel (default: Indonesia).
 - **Status**: Status novel (`Ongoing`, `Completed` / `Tamat`, atau `Hiatus`).
+- **Cover / URL Cover / Link Cover / Tautan Cover**: Tautan link gambar cover (mendukung link langsung, Google Drive, Dropbox, dll.).
 - **Sinopsis / Deskripsi / Synopsis**: Ringkasan cerita (mendukung multi-paragraf).
 
 ### Format Bab (Chapter)

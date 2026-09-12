@@ -130,7 +130,29 @@ Ini adalah bab dua yang ada isinya.
   assert(result.warnings.some((w) => w.code === 'EMPTY_CHAPTER'), 'TEST 8: Empty chapter triggers EMPTY_CHAPTER warning');
 }
 
-// TEST 9: Real DOCX File Parsing from Template_Import_Novel.docx
+// TEST 9: Cover URL Extraction and Normalization from Metadata
+{
+  const input = `
+METADATA NOVEL
+Judul Novel: Kisah Pendekar Naga
+Penulis: Budi Pratama
+Cover: https://drive.google.com/file/d/1a2b3c4d5e/view?usp=sharing
+Genre: Action, Fantasy
+Sinopsis: Petualangan pendekar mencari kitab suci.
+
+BAB 1 — Permulaan
+Di sebuah desa kecil, petualangan dimulai.
+  `;
+  const result = parseTextOrHtml(input);
+  assert(result.metadata.title === 'Kisah Pendekar Naga', 'TEST 9: Title extracted');
+  assert(
+    result.metadata.coverUrl === 'https://lh3.googleusercontent.com/d/1a2b3c4d5e',
+    `TEST 9: Cover extracted and normalized from GDrive link (got: "${result.metadata.coverUrl}")`
+  );
+  assert(result.chapters.length === 1, 'TEST 9: Chapter extracted');
+}
+
+// TEST 10: Real DOCX File Parsing from Template_Import_Novel.docx
 import fs from 'fs';
 import path from 'path';
 import { parseDocx } from '../index';
