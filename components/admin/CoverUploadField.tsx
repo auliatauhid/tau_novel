@@ -53,6 +53,62 @@ export function CoverUploadField({ value, onChange, disabled = false }: CoverUpl
     }
   };
 
+  const compressAndResizeImage = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      if (file.type === 'image/gif') {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const MAX_WIDTH = 600;
+          const MAX_HEIGHT = 900;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height = Math.round((height * MAX_WIDTH) / width);
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width = Math.round((width * MAX_HEIGHT) / height);
+              height = MAX_HEIGHT;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            resolve(e.target?.result as string);
+            return;
+          }
+
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, width, height);
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+          resolve(compressedDataUrl);
+        };
+        img.onerror = () => resolve(e.target?.result as string);
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
   const handleFileSelected = async (file: File) => {
     if (!file) return;
 
@@ -74,23 +130,31 @@ export function CoverUploadField({ value, onChange, disabled = false }: CoverUpl
     setIsUploading(true);
 
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const res = await fetch('/api/admin/novels/upload-cover', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Gagal mengunggah gambar cover.');
-      }
-
-      onChange(data.url);
+      // 1. First attempt fast, client-side canvas compression
+      const compressedUrl = await compressAndResizeImage(file);
+      onChange(compressedUrl);
       setActiveTab('url');
-    } catch (err: any) {
-      setUploadError(err.message || 'Terjadi kesalahan saat mengunggah file.');
+    } catch {
+      // 2. Fallback to API if client-side compression fails
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const res = await fetch('/api/admin/novels/upload-cover', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Gagal mengunggah gambar cover.');
+        }
+
+        onChange(data.url);
+        setActiveTab('url');
+      } catch (fallbackErr: any) {
+        setUploadError(fallbackErr.message || 'Terjadi kesalahan saat memproses gambar.');
+      }
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) {

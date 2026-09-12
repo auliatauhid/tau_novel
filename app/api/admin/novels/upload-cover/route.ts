@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth/auth-utils';
-import fs from 'fs';
-import path from 'path';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,34 +41,20 @@ export async function POST(req: Request) {
       );
     }
 
-    // Determine safe file extension
-    let ext = '.jpg';
-    if (file.type === 'image/png') ext = '.png';
-    else if (file.type === 'image/webp') ext = '.webp';
-    else if (file.type === 'image/gif') ext = '.gif';
-    else if (file.type === 'image/avif') ext = '.avif';
-
-    const safeFilename = `cover-${Date.now()}-${Math.random().toString(36).substring(2, 8)}${ext}`;
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'covers');
-
-    // Ensure upload directory exists
-    await fs.promises.mkdir(uploadDir, { recursive: true });
-
-    const filePath = path.join(uploadDir, safeFilename);
+    // Convert to optimized Base64 data URL to be compatible with serverless environments (Vercel)
+    // without requiring local filesystem write access.
     const buffer = Buffer.from(await file.arrayBuffer());
-    await fs.promises.writeFile(filePath, buffer);
-
-    const publicUrl = `/uploads/covers/${safeFilename}`;
+    const base64 = buffer.toString('base64');
+    const dataUrl = `data:${file.type};base64,${base64}`;
 
     return NextResponse.json({
       success: true,
-      url: publicUrl,
-      filename: safeFilename,
+      url: dataUrl,
     });
   } catch (error: any) {
     console.error('Error uploading cover image:', error);
     return NextResponse.json(
-      { error: error?.message || 'Gagal mengunggah gambar cover.' },
+      { error: error?.message || 'Gagal memproses gambar cover.' },
       { status: 500 }
     );
   }
